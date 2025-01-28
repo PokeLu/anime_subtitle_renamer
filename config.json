@@ -1,0 +1,28 @@
+{
+    "match_method": "ab",
+    "pattern": "(?:[A-Za-z]{1,2})?\\d{1,2}",
+    "match_pos": -1,
+    "video_ext": [
+        ".mp4",
+        ".mkv"
+    ],
+    "subtitle_ext": [
+        ".ass",
+        ".srt"
+    ],
+    "language_ext": {
+        "chs": "简体中文.chi",
+        "cht": "繁體中文.chi",
+        "dm-chs": "简体中文.chi",
+        "dm-cht": "繁體中文.chi",
+        "tc": "繁體中文.chi",
+        "sc": "简体中文.chi",
+        "jptc": "繁日字幕.chi",
+        "jpsc": "简日字幕.chi"
+    },
+    "debug_mode": true,
+    "clear_files": false,
+    "video_dir": "Z:\\Animation\\BanG Dream! It's MyGO!!!!! (2023)\\Season 1",
+    "sub_src_dir": "C:\\Users\\Administrator\\Downloads\\BanG Dream! It&#039;s MyGO!!!!! Nekomoe kissaten Subs",
+    "sub_tar_dir": "Z:\\Animation\\BanG Dream! It's MyGO!!!!! (2023)\\Season 1"
+}
