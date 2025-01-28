@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import messagebox, ttk, scrolledtext
 
 from .utils import get_updated_config, read_config, write_config
-from match import SubtitleMatcher
+from matcher import SubtitleMatcher
 
 class ConfigEditor(tk.Tk):
     def __init__(self, config_file: str="config.json"):
