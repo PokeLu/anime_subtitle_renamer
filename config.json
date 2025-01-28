@@ -1,6 +1,6 @@
 {
     "match_method": "ab",
-    "pattern": "(?:[A-Za-z]{1,2})?\\d{1,2}",
+    "pattern": "(?:[A-Za-z]{1,2})?\\b\\d{1,2}\\b",
     "match_pos": -1,
     "video_ext": [
         ".mp4",
