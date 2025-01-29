@@ -178,7 +178,7 @@ class ConfigEditor(tk.Tk):
             self.matcher.clear_files(self.config["sub_tar_dir"], self.config["subtitle_ext"])
         sub_rename_dict = self.matcher(self.config["video_dir"], self.config["sub_src_dir"], self.config["sub_tar_dir"])
         if self.config["debug_mode"]:
-            rename_msg = "\n".join([f"{key}  -->  {value}" for key, value in sub_rename_dict.items()])
+            rename_msg = "\n".join([f"{key}\n-->\n{value}\n" for key, value in sub_rename_dict.items()])
             self.popup_long_message("重命名信息", rename_msg)
         else:
             messagebox.showinfo("成功", "重命名已完成")
