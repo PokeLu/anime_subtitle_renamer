@@ -92,12 +92,12 @@ class ConfigEditor(tk.Tk):
         ttk.Label(advanced_frame, text="匹配位置:", justify='left').grid(column=2, row=2, padx=5, pady=5, sticky='w')
         self.match_pos_combo = ttk.Entry(advanced_frame)
         self.match_pos_combo.grid(column=3, row=2, padx=5, pady=5, sticky='ew')
-        self.entry_maping_dict[self.match_pos_combo] = "match_pos"
+        self.entry_maping_dict[self.match_pos_combo] = "sub_match_pos"
         
         ttk.Label(advanced_frame, text="匹配正则表达式:", justify='left').grid(column=0, row=3, padx=5, pady=5, sticky='w')
         self.pattern_entry = ttk.Entry(advanced_frame)
         self.pattern_entry.grid(column=1, columnspan=3, row=3, padx=5, pady=5, sticky='ew')
-        self.entry_maping_dict[self.pattern_entry] = "pattern"
+        self.entry_maping_dict[self.pattern_entry] = "sub_pattern"
         
         # 创建一个容器用于放置按钮
         button_container = ttk.Frame(self)
