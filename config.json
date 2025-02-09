@@ -1,5 +1,7 @@
 {
     "match_method": "ab",
+    "video_pattern": "(?:[A-Za-z]{1,2})?\\b\\d{1,2}\\b",
+    "video_match_pos": -1,
     "sub_pattern": "(?:[A-Za-z]{1,2})?\\b\\d{1,2}\\b",
     "sub_match_pos": -1,
     "video_ext": [

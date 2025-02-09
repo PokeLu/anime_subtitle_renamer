@@ -25,6 +25,9 @@ class ConfigEditor(tk.Tk):
         self.matcher.load_config(self.config)
         
     def init_ui(self):
+        self.geometry("800x400")  # 设置窗口初始大小
+        self.minsize(800, 400)  # 设置窗口最小大小
+
         # 创建一个框架来容纳基本设置
         basic_frame = ttk.LabelFrame(self, text="基本设置")
         basic_frame.pack(padx=10, pady=10, fill='both', expand=True)
@@ -89,14 +92,24 @@ class ConfigEditor(tk.Tk):
         self.match_method_combo.grid(column=1, row=2, padx=5, pady=5, sticky='ew')
         self.entry_maping_dict[self.match_method_combo] = "match_method"
         
-        ttk.Label(advanced_frame, text="匹配位置:", justify='left').grid(column=2, row=2, padx=5, pady=5, sticky='w')
+        ttk.Label(advanced_frame, text="视频集数位置:", justify='left').grid(column=0, row=3, padx=5, pady=5, sticky='w')
         self.match_pos_combo = ttk.Entry(advanced_frame)
-        self.match_pos_combo.grid(column=3, row=2, padx=5, pady=5, sticky='ew')
+        self.match_pos_combo.grid(column=1, row=3, padx=5, pady=5, sticky='ew')
+        self.entry_maping_dict[self.match_pos_combo] = "video_match_pos"
+        
+        ttk.Label(advanced_frame, text="视频匹配正则:", justify='left').grid(column=2, row=3, padx=5, pady=5, sticky='w')
+        self.pattern_entry = ttk.Entry(advanced_frame)
+        self.pattern_entry.grid(column=3, row=3, padx=5, pady=5, sticky='ew')
+        self.entry_maping_dict[self.pattern_entry] = "video_pattern"
+
+        ttk.Label(advanced_frame, text="字幕集数位置:", justify='left').grid(column=0, row=4, padx=5, pady=5, sticky='w')
+        self.match_pos_combo = ttk.Entry(advanced_frame)
+        self.match_pos_combo.grid(column=1, row=4, padx=5, pady=5, sticky='ew')
         self.entry_maping_dict[self.match_pos_combo] = "sub_match_pos"
         
-        ttk.Label(advanced_frame, text="匹配正则表达式:", justify='left').grid(column=0, row=3, padx=5, pady=5, sticky='w')
+        ttk.Label(advanced_frame, text="字幕匹配正则:", justify='left').grid(column=2, row=4, padx=5, pady=5, sticky='w')
         self.pattern_entry = ttk.Entry(advanced_frame)
-        self.pattern_entry.grid(column=1, columnspan=3, row=3, padx=5, pady=5, sticky='ew')
+        self.pattern_entry.grid(column=3, row=4, padx=5, pady=5, sticky='ew')
         self.entry_maping_dict[self.pattern_entry] = "sub_pattern"
         
         # 创建一个容器用于放置按钮
