@@ -25,8 +25,8 @@ class ConfigEditor(tk.Tk):
         self.matcher.load_config(self.config)
         
     def init_ui(self):
-        self.geometry("800x400")  # 设置窗口初始大小
-        self.minsize(800, 400)  # 设置窗口最小大小
+        self.geometry("800x450")  # 设置窗口初始大小
+        self.minsize(800, 450)  # 设置窗口最小大小
 
         # 创建一个框架来容纳基本设置
         basic_frame = ttk.LabelFrame(self, text="基本设置")

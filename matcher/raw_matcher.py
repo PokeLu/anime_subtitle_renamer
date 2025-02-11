@@ -37,7 +37,10 @@ class RawMatcher(BaseMatcher):
         formated_matches = [''.join(re.findall(r'\d+', match)) for match in matches]
         # if self.debug_mode: print(f"Num matched: {formated_matches}")
         
+        # 若匹配失败，返回0
+        ep_num = 0
         # 如果匹配到多个数字，则选择按照matched_pos选择
-        ep_num = formated_matches[match_pos]
+        if formated_matches:
+            ep_num = formated_matches[match_pos]
 
         return ep_num
