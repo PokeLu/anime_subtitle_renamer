@@ -47,14 +47,20 @@ class BaseMatcher(ABC):
             sub_episode = self.episode_match(sub_name)
             if self.debug_mode: print(f"Num selected: {sub_episode}")
             
-            # 找到对应集数的视频名
+            # sub_episode=-1，未找到集数信息
+            if sub_episode==-1:
+                print(f"{sub_name} episode match failed\n")
+                new_sub_name_dict[sub_name] = None
+                continue
+            
+            # 找到对应集数的视频名，获取新字幕名
+            new_sub_name = None
             try:
-                content_video_name = video_name_dict[sub_episode]   
+                content_video_name = video_name_dict[sub_episode]
+                new_sub_name = self.get_new_sub_name(content_video_name, sub_name)   
             except: 
                 print(f"{sub_name} not found in video names")
-                continue
                             
-            new_sub_name = self.get_new_sub_name(content_video_name, sub_name)
             if self.debug_mode: print(f"New filename: {new_sub_name}\n")
             new_sub_name_dict[sub_name] = new_sub_name
             

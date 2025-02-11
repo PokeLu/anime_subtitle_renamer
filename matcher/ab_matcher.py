@@ -22,7 +22,7 @@ class AbMatcher(BaseMatcher):
         )
         # 处理集数
         raw_episode = self.EPISODE_RE.search(episode_info)
-        episode = 0
+        episode = -1
         if raw_episode is not None:
             episode = int(raw_episode.group())
         

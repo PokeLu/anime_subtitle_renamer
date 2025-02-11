@@ -71,7 +71,7 @@ class SubtitleMatcher:
         # 获取路径下的所有字幕文件名和字幕文件路径
         sub_path_dict = {filename:filepath for filename, filepath in find_files(sub_src_dir, self.subtitle_ext) if os.path.splitext(filename)[1] in self.subtitle_ext}
         
-        # 获取匹配的新字幕文件名，仅维护有更改的字幕文件
+        # 获取匹配的新字幕文件名
         new_sub_name_dict = self.get_matcher()(video_names, list(sub_path_dict.keys()))
         
         # 执行重命名操作
