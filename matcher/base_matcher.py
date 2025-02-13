@@ -30,7 +30,7 @@ class BaseMatcher(ABC):
     
     @abstractmethod
     def episode_match(self, raw_title: str) -> int:
-        return 0
+        return -1
     
     def __call__(self, video_names: List[str], sub_names: List[str]) -> Dict[str, str]:
         new_sub_name_dict = {}
