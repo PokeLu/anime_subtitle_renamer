@@ -1,5 +1,6 @@
 import os, re
 from typing import Dict, List, Any
+from concurrent.futures import ThreadPoolExecutor
 
 from .base_matcher import BaseMatcher
 
@@ -50,9 +51,17 @@ class RawMatcher(BaseMatcher):
         
         # 获取无后缀视频名
         content_video_names = [os.path.splitext(video_name)[0] for video_name in video_names]
-        # 获取视频集数
-        video_name_dict = {self.episode_match(content_video_name):content_video_name for content_video_name in content_video_names}
-        
+        # 获取视频集数, multi-threading
+        with ThreadPoolExecutor(max_workers=32) as executor:
+            # 并行生成键值元组列表
+            key_value_pairs = executor.map(
+                lambda name: (self.episode_match(name), name),
+                content_video_names
+            )
+            video_name_dict = dict(key_value_pairs)
+
+        # video_name_dict = {self.episode_match(content_video_name):content_video_name for content_video_name in content_video_names}
+                
         for sub_name in sub_names:
             if self.debug_mode: print(f"Org filename: {sub_name}")
             

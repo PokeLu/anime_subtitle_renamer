@@ -4,9 +4,9 @@
     "video_match_pos": -1,
     "sub_pattern": "(?:[A-Za-z]{1,2})?\\b\\d{1,2}\\b",
     "sub_match_pos": -1,
-    "base_url": "https://api.deepseek.com/v1",
-    "api_key": "123456",
-    "model": "deepseek-chat",
+    "base_url": "https://api.siliconflow.cn/v1",
+    "api_key": "sk-000",
+    "model": "Pro/deepseek-ai/DeepSeek-V3",
     "video_ext": [
         ".mp4",
         ".mkv"
