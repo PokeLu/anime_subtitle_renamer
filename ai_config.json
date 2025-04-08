@@ -1,0 +1,5 @@
+{
+    "base_url": "https://api.siliconflow.cn/v1",
+    "api_key": "sk-*****************",
+    "model": "Qwen/Qwen2.5-32B-Instruct"
+}

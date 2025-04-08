@@ -50,9 +50,10 @@ class AIMatcher(BaseMatcher):
         **输入10：** "Breaking Bad - 05x12.mkv"
         **输出10：** 12
 
-        **现在，请处理以下输入：**
+        ## 现在，请处理以下输入：
 
         **输入：** {}
+        **输出：** 
         """
  
         
@@ -78,6 +79,7 @@ class AIMatcher(BaseMatcher):
                     {"role": "user", "content": prompt},
                 ],
                 stream=False
+                # response_format={"type": "json_object"}
             )
             episode = response.choices[0].message.content
             

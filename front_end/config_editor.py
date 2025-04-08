@@ -6,10 +6,11 @@ from .utils import get_updated_config, read_config, write_config
 from matcher import SubtitleMatcher
 
 class ConfigEditor(tk.Tk):
-    def __init__(self, config_file: str="config.json"):
+    def __init__(self, config_file: str="config.json", ai_config_file: str="ai_config.json"):
         super().__init__()
         ConfigEditor.SETTING_SECTION = 'Settings'
         self.config_file = config_file
+        self.ai_config_file = ai_config_file
         self.config = {}
         # 创建一个字典来映射输入框和配置参数：{widget: config_param}
         self.entry_maping_dict = {}
@@ -199,6 +200,8 @@ class ConfigEditor(tk.Tk):
     # 加载初始参数
     def load_initial_params(self, entry_maping_dict: dict):
         self.config = read_config(self.config_file)
+        ai_config = read_config(self.ai_config_file)
+        self.config.update(ai_config)
         
         for entry, config_param in entry_maping_dict.items():
             if not isinstance(entry, ttk.Entry) and not isinstance(entry, ttk.Combobox):

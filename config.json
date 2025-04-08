@@ -4,9 +4,6 @@
     "video_match_pos": -1,
     "sub_pattern": "(?:[A-Za-z]{1,2})?\\b\\d{1,2}\\b",
     "sub_match_pos": -1,
-    "base_url": "https://api.siliconflow.cn/v1",
-    "api_key": "sk-000",
-    "model": "Pro/deepseek-ai/DeepSeek-V3",
     "video_ext": [
         ".mp4",
         ".mkv"
@@ -27,7 +24,10 @@
     },
     "debug_mode": true,
     "clear_files": false,
-    "video_dir": "Z:\\Animation\\BanG Dream! It's MyGO!!!!! (2023)\\Season 1",
-    "sub_src_dir": "C:\\Users\\Administrator\\Downloads\\BanG Dream! It&#039;s MyGO!!!!! Nekomoe kissaten Subs",
-    "sub_tar_dir": "Z:\\Animation\\BanG Dream! It's MyGO!!!!! (2023)\\Season 1"
+    "video_dir": "Z:\\Animation\\少女☆寸剧 All Starlight (2019)\\Season 1",
+    "sub_src_dir": "E:\\Anime_Cache\\tmp-subs",
+    "sub_tar_dir": "Z:\\Animation\\少女☆寸剧 All Starlight (2019)\\Season 1",
+    "base_url": "https://api.siliconflow.cn/v1",
+    "api_key": "sk-vpldkcphyfidljfohlcfhosvsicwsgtiykssooeliyckdrlo",
+    "model": "Qwen/Qwen2.5-32B-Instruct"
 }
