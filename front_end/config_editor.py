@@ -14,6 +14,7 @@ class ConfigEditor(tk.Tk):
         self.config = {}
         # 创建一个字典来映射输入框和配置参数：{widget: config_param}
         self.entry_maping_dict = {}
+        # self.ai_entry_maping_dict = {}
         self.title("Configuration Editor")
         # self.geometry('500x500')
         
@@ -26,8 +27,8 @@ class ConfigEditor(tk.Tk):
         self.matcher.load_config(self.config)
         
     def init_ui(self):
-        self.geometry("800x450")  # 设置窗口初始大小
-        self.minsize(800, 450)  # 设置窗口最小大小
+        self.geometry("700x600")  # 设置窗口初始大小
+        self.minsize(700, 600)  # 设置窗口最小大小
 
         # 创建一个框架来容纳基本设置
         basic_frame = ttk.LabelFrame(self, text="基本设置")
@@ -94,24 +95,49 @@ class ConfigEditor(tk.Tk):
         self.entry_maping_dict[self.match_method_combo] = "match_method"
         
         ttk.Label(advanced_frame, text="视频集数位置:", justify='left').grid(column=0, row=3, padx=5, pady=5, sticky='w')
-        self.match_pos_combo = ttk.Entry(advanced_frame)
-        self.match_pos_combo.grid(column=1, row=3, padx=5, pady=5, sticky='ew')
-        self.entry_maping_dict[self.match_pos_combo] = "video_match_pos"
+        self.video_match_pos_entry = ttk.Entry(advanced_frame)
+        self.video_match_pos_entry.grid(column=1, row=3, padx=5, pady=5, sticky='ew')
+        self.entry_maping_dict[self.video_match_pos_entry] = "video_match_pos"
         
         ttk.Label(advanced_frame, text="视频匹配正则:", justify='left').grid(column=2, row=3, padx=5, pady=5, sticky='w')
-        self.pattern_entry = ttk.Entry(advanced_frame)
-        self.pattern_entry.grid(column=3, row=3, padx=5, pady=5, sticky='ew')
-        self.entry_maping_dict[self.pattern_entry] = "video_pattern"
+        self.video_pattern_entry = ttk.Entry(advanced_frame)
+        self.video_pattern_entry.grid(column=3, row=3, padx=5, pady=5, sticky='ew')
+        self.entry_maping_dict[self.video_pattern_entry] = "video_pattern"
 
         ttk.Label(advanced_frame, text="字幕集数位置:", justify='left').grid(column=0, row=4, padx=5, pady=5, sticky='w')
-        self.match_pos_combo = ttk.Entry(advanced_frame)
-        self.match_pos_combo.grid(column=1, row=4, padx=5, pady=5, sticky='ew')
-        self.entry_maping_dict[self.match_pos_combo] = "sub_match_pos"
+        self.sub_match_pos_entry = ttk.Entry(advanced_frame)
+        self.sub_match_pos_entry.grid(column=1, row=4, padx=5, pady=5, sticky='ew')
+        self.entry_maping_dict[self.sub_match_pos_entry] = "sub_match_pos"
         
         ttk.Label(advanced_frame, text="字幕匹配正则:", justify='left').grid(column=2, row=4, padx=5, pady=5, sticky='w')
-        self.pattern_entry = ttk.Entry(advanced_frame)
-        self.pattern_entry.grid(column=3, row=4, padx=5, pady=5, sticky='ew')
-        self.entry_maping_dict[self.pattern_entry] = "sub_pattern"
+        self.sub_pattern_entry = ttk.Entry(advanced_frame)
+        self.sub_pattern_entry.grid(column=3, row=4, padx=5, pady=5, sticky='ew')
+        self.entry_maping_dict[self.sub_pattern_entry] = "sub_pattern"
+        
+        # 创建一个框架来容纳AI设置
+        ai_frame = ttk.LabelFrame(self, text="AI设置")
+        ai_frame.pack(padx=10, pady=10, fill='both', expand=True)
+        
+        # 设置各列的权重，使得它们能够均匀分布空间
+        ai_frame.grid_columnconfigure(0, weight=1, minsize=50)  # 标签列
+        ai_frame.grid_columnconfigure(1, weight=100, minsize=50)  # Combobox列
+        ai_frame.grid_columnconfigure(2, weight=1, minsize=50)   # 标签列
+        ai_frame.grid_columnconfigure(3, weight=100, minsize=50)  # Combobox列
+        
+        ttk.Label(ai_frame, text="Base URL:", justify='left').grid(column=0, row=0, padx=5, pady=5, sticky='w')
+        self.base_url_entry = ttk.Entry(ai_frame)
+        self.base_url_entry.grid(column=1, columnspan=3, row=0, padx=5, pady=5, sticky='ew')
+        self.entry_maping_dict[self.base_url_entry] = "base_url"
+        
+        ttk.Label(ai_frame, text="API Key:", justify='left').grid(column=0, row=1, padx=5, pady=5, sticky='w')
+        self.api_key_entry = ttk.Entry(ai_frame)
+        self.api_key_entry.grid(column=1, columnspan=3, row=1, padx=5, pady=5, sticky='ew')
+        self.entry_maping_dict[self.api_key_entry] = "api_key"
+        
+        ttk.Label(ai_frame, text="Model Name:", justify='left').grid(column=0, row=2, padx=5, pady=5, sticky='w')
+        self.model_name_entry = ttk.Entry(ai_frame)
+        self.model_name_entry.grid(column=1, columnspan=3, row=2, padx=5, pady=5, sticky='ew')
+        self.entry_maping_dict[self.model_name_entry] = "model"
         
         # 创建一个容器用于放置按钮
         button_container = ttk.Frame(self)
@@ -180,10 +206,18 @@ class ConfigEditor(tk.Tk):
     def apply_changes_with_messages(self):
         self.apply_changes()
         messagebox.showinfo("成功", "参数已更新")
+        
+    def split_ai_config(self):
+        ai_config_keys = list(read_config(self.ai_config_file).keys())
+        ai_config = {key: self.config[key] for key in ai_config_keys}
+        config = {key: self.config[key] for key in self.config if key not in ai_config_keys}
+        return config, ai_config
             
     def save_changes_with_messages(self):
         self.apply_changes()
-        write_config(self.config_file, self.config)
+        config, ai_config = self.split_ai_config()
+        write_config(self.config_file, config)
+        write_config(self.ai_config_file, ai_config)
         messagebox.showinfo("成功", "参数已保存")
         
     def run_match(self):

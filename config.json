@@ -26,8 +26,5 @@
     "clear_files": false,
     "video_dir": "Z:\\Animation\\少女☆寸剧 All Starlight (2019)\\Season 1",
     "sub_src_dir": "E:\\Anime_Cache\\tmp-subs",
-    "sub_tar_dir": "Z:\\Animation\\少女☆寸剧 All Starlight (2019)\\Season 1",
-    "base_url": "https://api.siliconflow.cn/v1",
-    "api_key": "sk-vpldkcphyfidljfohlcfhosvsicwsgtiykssooeliyckdrlo",
-    "model": "Qwen/Qwen2.5-32B-Instruct"
+    "sub_tar_dir": "Z:\\Animation\\少女☆寸剧 All Starlight (2019)\\Season 1"
 }
