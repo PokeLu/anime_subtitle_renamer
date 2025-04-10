@@ -1,5 +1,6 @@
 from openai import OpenAI
 from typing import Dict, List
+import json
 
 from .base_matcher import BaseMatcher
 
@@ -17,38 +18,39 @@ class AIMatcher(BaseMatcher):
         要求：
         1. 确保输出的集数信息是整数，不要输出其他思考过程或其他冗余信息。
         2. 若你认为文件名中不包含集数信息，请输出-1。
+        3. 输出应为以下json格式：{{"ep": ep_num}}
 
         **示例：**
 
         **输入1：** "Suzumiya Haruhi no Yuuutsu (TV 2009). 25; BD_h264_flac"
-        **输出1：** 25
+        **输出1：** {{"ep": 25}}
 
         **输入2：** "[Nekomoe kissaten] BanG Dream! It’s MyGO!!!!! [05][BDRip].JPSC"
-        **输出2：** 5
+        **输出2：** {{"ep": 5}}
 
-        **输入3：** "One Piece - Episode 123 [1080p]"
-        **输出3：** 123
+        **输入3：** "One Piece - "ep"isode 123 [1080p]"
+        **输出3：** {{"ep": 123}}
 
         **输入4：** "Attack on Titan S04E15.mkv"
-        **输出4：** 15
+        **输出4：** {{"ep": 15}}
 
         **输入5：** "Naruto Shippuden - 456.avi"
-        **输出5：** 456
+        **输出5：** {{"ep": 456}}
 
         **输入6：** "My Hero Academia - 03 [SubsPlease].mkv"
-        **输出6：** 3
+        **输出6：** {{"ep": 3}}
 
         **输入7：** "Demon Slayer - Kimetsu no Yaiba - 26 [1080p]"
-        **输出7：** 26
+        **输出7：** {{"ep": 26}}
 
         **输入8：** "[Airota&Nekomoe kissaten&LoliHouse] Yagate Kimi ni Naru - 12 [WebRip 1080p HEVC-yuv420p10 AAC ASSx2].TC"
-        **输出8：** 12
+        **输出8：** {{"ep": 12}}
 
-        **输入9：** "Friends - Season 10 Episode 17"
-        **输出9：** 17
+        **输入9：** "Friends - Season 10 "ep"isode 17"
+        **输出9：** {{"ep": 17}}
 
         **输入10：** "Breaking Bad - 05x12.mkv"
-        **输出10：** 12
+        **输出10：** {{"ep": 12}}
 
         ## 现在，请处理以下输入：
 
@@ -78,10 +80,11 @@ class AIMatcher(BaseMatcher):
                     {"role": "system", "content": "You are a helpful assistant"},
                     {"role": "user", "content": prompt},
                 ],
-                stream=False
-                # response_format={"type": "json_object"}
+                stream=False,
+                response_format={"type": "json_object"}
             )
-            episode = response.choices[0].message.content
+            episode_json = json.loads(response.choices[0].message.content)
+            episode = int(episode_json['ep'])
             
         except Exception as e:
             # 如果API调用失败，返回episode=-1，并打印错误信息
