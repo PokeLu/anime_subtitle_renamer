@@ -42,29 +42,34 @@ class ConfigEditor(tk.Tk):
         # basic_frame.grid_columnconfigure(4, weight=1, minsize=150)  # 其他内容列
 
         # 基本设置标签页控件布局
-        ttk.Label(basic_frame, text="是否清除原文件:", justify='left').grid(column=0, row=0, padx=5, pady=5, sticky='w')
+        ttk.Label(basic_frame, text="匹配模式:", justify='left').grid(column=0, row=0, padx=5, pady=5, sticky='w')
+        self.match_method_combo = ttk.Combobox(basic_frame, values=["ab", "ai", "raw"])
+        self.match_method_combo.grid(column=1, row=0, padx=5, pady=5, sticky='ew')
+        self.entry_maping_dict[self.match_method_combo] = "match_method"
+        
+        ttk.Label(basic_frame, text="是否清除原文件:", justify='left').grid(column=0, row=1, padx=5, pady=5, sticky='w')
         self.clear_files_combo = ttk.Combobox(basic_frame, values=[True, False])
-        self.clear_files_combo.grid(column=1, row=0, padx=5, pady=5, sticky='ew')
+        self.clear_files_combo.grid(column=1, row=1, padx=5, pady=5, sticky='ew')
         self.entry_maping_dict[self.clear_files_combo] = "clear_files"
         
-        ttk.Label(basic_frame, text="Debug模式:", justify='left').grid(column=2, row=0, padx=5, pady=5, sticky='w')
+        ttk.Label(basic_frame, text="Debug模式:", justify='left').grid(column=2, row=1, padx=5, pady=5, sticky='w')
         self.debug_mode_combo = ttk.Combobox(basic_frame, values=[True, False])
-        self.debug_mode_combo.grid(column=3, row=0, padx=5, pady=5, sticky='ew')
+        self.debug_mode_combo.grid(column=3, row=1, padx=5, pady=5, sticky='ew')
         self.entry_maping_dict[self.debug_mode_combo] = "debug_mode"
         
-        ttk.Label(basic_frame, text="视频所在目录:", justify='left').grid(column=0, row=1, padx=5, pady=5, sticky='w')
+        ttk.Label(basic_frame, text="视频所在目录:", justify='left').grid(column=0, row=2, padx=5, pady=5, sticky='w')
         self.video_dir_entry = ttk.Entry(basic_frame)
-        self.video_dir_entry.grid(column=1, columnspan=3, row=1, padx=5, pady=5, sticky='ew')
+        self.video_dir_entry.grid(column=1, columnspan=3, row=2, padx=5, pady=5, sticky='ew')
         self.entry_maping_dict[self.video_dir_entry] = "video_dir"
         
-        ttk.Label(basic_frame, text="字幕所在目录:", justify='left').grid(column=0, row=2, padx=5, pady=5, sticky='w')
+        ttk.Label(basic_frame, text="字幕所在目录:", justify='left').grid(column=0, row=3, padx=5, pady=5, sticky='w')
         self.sub_src_dir_entry = ttk.Entry(basic_frame)
-        self.sub_src_dir_entry.grid(column=1, columnspan=3, row=2, padx=5, pady=5, sticky='ew')
+        self.sub_src_dir_entry.grid(column=1, columnspan=3, row=3, padx=5, pady=5, sticky='ew')
         self.entry_maping_dict[self.sub_src_dir_entry] = "sub_src_dir"
         
-        ttk.Label(basic_frame, text="字幕目标目录:", justify='left').grid(column=0, row=3, padx=5, pady=5, sticky='w')
+        ttk.Label(basic_frame, text="字幕目标目录:", justify='left').grid(column=0, row=4, padx=5, pady=5, sticky='w')
         self.sub_tar_dir_entry = ttk.Entry(basic_frame)
-        self.sub_tar_dir_entry.grid(column=1, columnspan=3, row=3, padx=5, pady=5, sticky='ew')
+        self.sub_tar_dir_entry.grid(column=1, columnspan=3, row=4, padx=5, pady=5, sticky='ew')
         self.entry_maping_dict[self.sub_tar_dir_entry] = "sub_tar_dir"
 
         # 创建一个框架来容纳高级设置
@@ -89,29 +94,24 @@ class ConfigEditor(tk.Tk):
         self.subtitle_ext_entry.grid(column=1, columnspan=3, row=1, padx=5, pady=5, sticky='ew')
         self.entry_maping_dict[self.subtitle_ext_entry] = "subtitle_ext"
         
-        ttk.Label(advanced_frame, text="匹配模式:", justify='left').grid(column=0, row=2, padx=5, pady=5, sticky='w')
-        self.match_method_combo = ttk.Combobox(advanced_frame, values=["ab", "ai", "raw"])
-        self.match_method_combo.grid(column=1, row=2, padx=5, pady=5, sticky='ew')
-        self.entry_maping_dict[self.match_method_combo] = "match_method"
-        
-        ttk.Label(advanced_frame, text="视频集数位置:", justify='left').grid(column=0, row=3, padx=5, pady=5, sticky='w')
+        ttk.Label(advanced_frame, text="视频集数位置:", justify='left').grid(column=0, row=2, padx=5, pady=5, sticky='w')
         self.video_match_pos_entry = ttk.Entry(advanced_frame)
-        self.video_match_pos_entry.grid(column=1, row=3, padx=5, pady=5, sticky='ew')
+        self.video_match_pos_entry.grid(column=1, row=2, padx=5, pady=5, sticky='ew')
         self.entry_maping_dict[self.video_match_pos_entry] = "video_match_pos"
         
-        ttk.Label(advanced_frame, text="视频匹配正则:", justify='left').grid(column=2, row=3, padx=5, pady=5, sticky='w')
+        ttk.Label(advanced_frame, text="视频匹配正则:", justify='left').grid(column=2, row=2, padx=5, pady=5, sticky='w')
         self.video_pattern_entry = ttk.Entry(advanced_frame)
-        self.video_pattern_entry.grid(column=3, row=3, padx=5, pady=5, sticky='ew')
+        self.video_pattern_entry.grid(column=3, row=2, padx=5, pady=5, sticky='ew')
         self.entry_maping_dict[self.video_pattern_entry] = "video_pattern"
 
-        ttk.Label(advanced_frame, text="字幕集数位置:", justify='left').grid(column=0, row=4, padx=5, pady=5, sticky='w')
+        ttk.Label(advanced_frame, text="字幕集数位置:", justify='left').grid(column=0, row=3, padx=5, pady=5, sticky='w')
         self.sub_match_pos_entry = ttk.Entry(advanced_frame)
-        self.sub_match_pos_entry.grid(column=1, row=4, padx=5, pady=5, sticky='ew')
+        self.sub_match_pos_entry.grid(column=1, row=3, padx=5, pady=5, sticky='ew')
         self.entry_maping_dict[self.sub_match_pos_entry] = "sub_match_pos"
         
-        ttk.Label(advanced_frame, text="字幕匹配正则:", justify='left').grid(column=2, row=4, padx=5, pady=5, sticky='w')
+        ttk.Label(advanced_frame, text="字幕匹配正则:", justify='left').grid(column=2, row=3, padx=5, pady=5, sticky='w')
         self.sub_pattern_entry = ttk.Entry(advanced_frame)
-        self.sub_pattern_entry.grid(column=3, row=4, padx=5, pady=5, sticky='ew')
+        self.sub_pattern_entry.grid(column=3, row=3, padx=5, pady=5, sticky='ew')
         self.entry_maping_dict[self.sub_pattern_entry] = "sub_pattern"
         
         # 创建一个框架来容纳AI设置
