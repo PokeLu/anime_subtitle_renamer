@@ -6,11 +6,10 @@ from .utils import get_updated_config, read_config, write_config
 from matcher import SubtitleMatcher
 
 class ConfigEditor(tk.Tk):
-    def __init__(self, config_file: str="config.json", ai_config_file: str="ai_config.json"):
+    def __init__(self, config_file: str="config.yaml"):
         super().__init__()
         ConfigEditor.SETTING_SECTION = 'Settings'
         self.config_file = config_file
-        self.ai_config_file = ai_config_file
         self.config = {}
         # 创建一个字典来映射输入框和配置参数：{widget: config_param}
         self.entry_maping_dict = {}
@@ -206,18 +205,10 @@ class ConfigEditor(tk.Tk):
     def apply_changes_with_messages(self):
         self.apply_changes()
         messagebox.showinfo("成功", "参数已更新")
-        
-    def split_ai_config(self):
-        ai_config_keys = list(read_config(self.ai_config_file).keys())
-        ai_config = {key: self.config[key] for key in ai_config_keys}
-        config = {key: self.config[key] for key in self.config if key not in ai_config_keys}
-        return config, ai_config
-            
+
     def save_changes_with_messages(self):
         self.apply_changes()
-        config, ai_config = self.split_ai_config()
-        write_config(self.config_file, config)
-        write_config(self.ai_config_file, ai_config)
+        write_config(self.config_file, self.config)
         messagebox.showinfo("成功", "参数已保存")
         
     def run_match(self):
@@ -234,8 +225,6 @@ class ConfigEditor(tk.Tk):
     # 加载初始参数
     def load_initial_params(self, entry_maping_dict: dict):
         self.config = read_config(self.config_file)
-        ai_config = read_config(self.ai_config_file)
-        self.config.update(ai_config)
         
         for entry, config_param in entry_maping_dict.items():
             if not isinstance(entry, ttk.Entry) and not isinstance(entry, ttk.Combobox):

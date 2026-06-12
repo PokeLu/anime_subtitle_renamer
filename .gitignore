@@ -1,5 +1,9 @@
-# ignore api keys
-ai_config.json
+# 真实配置文件（含 API key 等敏感信息，不上传）
+config.yaml
+
+# Claude Code 项目文件
+CLAUDE.md
+.claude/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

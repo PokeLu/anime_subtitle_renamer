@@ -1,0 +1,34 @@
+matching:
+  method: ab
+  video_pattern: "(?:[A-Za-z]{1,2})?\\b\\d{1,2}\\b"
+  video_match_pos: -1
+  sub_pattern: "(?:[A-Za-z]{1,2})?\\b\\d{1,2}\\b"
+  sub_match_pos: -1
+
+files:
+  video_ext:
+  - .mp4
+  - .mkv
+  subtitle_ext:
+  - .ass
+  - .srt
+  language_ext:
+    chs: "简体中文.chi"
+    cht: "繁體中文.chi"
+    dm-chs: "简体中文.chi"
+    dm-cht: "繁體中文.chi"
+    tc: "繁體中文.chi"
+    sc: "简体中文.chi"
+    jptc: "繁日字幕.chi"
+    jpsc: "简日字幕.chi"
+  video_dir: ''
+  sub_src_dir: ''
+  sub_tar_dir: ''
+
+ai:
+  base_url: ''
+  api_key: ''
+  model: ''
+
+debug_mode: true
+clear_files: false
