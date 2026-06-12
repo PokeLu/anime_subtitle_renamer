@@ -17,6 +17,7 @@ tzdata=2025a=h04d1e81_0
 vc=14.40=haa95532_2
 vs2015_runtime=14.42.34433=h9531ae6_2
 pyyaml=6.0.3=py313h2bbff1b_0
+pytest=9.0.3=pypi_0
 wheel=0.44.0=py313haa95532_0
 xz=5.4.6=h8cc25b3_1
 zlib=1.2.13=h8cc25b3_1
