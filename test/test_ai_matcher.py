@@ -53,16 +53,13 @@ def test_ai_happy_path():
     assert matcher.client.chat.completions.create.call_count == 1
 
 
-def test_ai_retry_when_first_returns_minus_one():
-    """首次返回 -1 时，会用放宽规则的 prompt 重试一次。"""
+def test_ai_returns_minus_one_without_retry():
+    """模型返回 -1（无集数）时直接返回 -1，只调用一次（已测得 retry 零收益并移除）。"""
     matcher = _make_matcher()
-    matcher.client.chat.completions.create.side_effect = [
-        _resp('{"ep": -1}'),
-        _resp('{"ep": 5}'),
-    ]
+    matcher.client.chat.completions.create.return_value = _resp('{"ep": -1}')
 
-    assert matcher.episode_match("Anime - 05 [1080p]") == 5
-    assert matcher.client.chat.completions.create.call_count == 2
+    assert matcher.episode_match("Anime - 05 [1080p]") == -1
+    assert matcher.client.chat.completions.create.call_count == 1
 
 
 def test_ai_returns_minus_one_on_api_exception():
@@ -96,6 +93,60 @@ def test_ai_load_config_builds_client(monkeypatch):
     assert matcher.config["model"] == "m"
     # load_config 会调用 models.list()（print 一次 + 返回的 f-string 一次），至少被调用过即可
     fake.models.list.assert_called()
+
+
+# ---------------------------------------------------------------------------
+# thinking model 输出归一化：自定义解析（_strip_reasoning / _extract_episode）
+# ---------------------------------------------------------------------------
+@pytest.mark.parametrize("content,expected", [
+    ('{"ep": 23}', 23),                                       # 干净 JSON
+    ('<think>分析一下...</think>\n{"ep": 23}', 23),           # 配对 <think>...</think>
+    ('推理：23 才是集数</think>\n{"ep": 23}', 23),             # 初代 DeepSeek-R1：只有结束标记
+    ('只有思考没有答案</think>', None),                         # 只有结束标记、无答案
+    ('<think>推理</think>', None),                            # 配对但闭合后无答案
+    ('```json\n{"ep": 5}\n```', 5),                            # markdown 代码块
+    ('集数应为 12：{"ep": 12}', 12),                            # 前置散文 + JSON
+    ('{"reasoning": "...", "ep": 3}', 3),                      # 多余键
+    ('{"ep": -1}', -1),                                       # 显式 -1
+    ('没有集数信息', None),                                     # 无 JSON
+    ('<think>未闭合的思考', None),                              # 只有开始标记（思考被截断）
+    (None, None),                                              # content 为 None
+])
+def test_extract_episode_handles_thinking_noise(content, expected):
+    """_extract_episode 应吞掉 thinking 痕迹/包裹/散文，稳健取出 ep（失败转 None）。"""
+    assert ai_mod._extract_episode(content) == expected
+
+
+def test_ai_handles_thinking_model_response():
+    """thinking model 把推理链 + markdown 一起塞进 content 时，仍能解析出集数。"""
+    matcher = _make_matcher()
+    matcher.client.chat.completions.create.return_value = _resp(
+        '<think>文件名里 23 是集数</think>\n```json\n{"ep": 23}\n```'
+    )
+    assert matcher.episode_match("[SubsPlease] Jujutsu Kaisen - 23 [1080p]") == 23
+    assert matcher.client.chat.completions.create.call_count == 1
+
+
+def test_ai_falls_back_to_reasoning_content():
+    """content 为空但 reasoning_content 含答案时，从 reasoning_content 解析。"""
+    matcher = _make_matcher()
+    resp = MagicMock()
+    resp.choices[0].finish_reason = "stop"
+    resp.choices[0].message.content = None
+    resp.choices[0].message.reasoning_content = '思考后集数是 {"ep": 8}'
+    matcher.client.chat.completions.create.return_value = resp
+
+    assert matcher.episode_match("Show - 08") == 8
+
+
+def test_ai_returns_minus_one_on_length_truncation():
+    """finish_reason=length（思考撑爆 max_tokens）时返回 -1，不触发解析异常。"""
+    matcher = _make_matcher()
+    resp = _resp('<think>思考到一半被截断...')   # content 不完整
+    resp.choices[0].finish_reason = "length"
+    matcher.client.chat.completions.create.return_value = resp
+
+    assert matcher.episode_match("Show 05") == -1
 
 
 # ---------------------------------------------------------------------------
